@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'weather_station'
 ]
 
 MIDDLEWARE = [
@@ -76,8 +81,26 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    # PostgreSQL local
+    'local': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME':'homework_db',
+        'USER': 'postgres',
+        'PASSWORD': os.getenv('LOCAL_DB_PASSWORD'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
+    # Supabase (opcional nube)
+    'supabase': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': os.getenv('SUPABASE_DB_USER'),
+        'PASSWORD': os.getenv('SUPABASE_DB_PASSWORD'),
+        'HOST': os.getenv('SUPABASE_DB_HOST'),
+        'PORT': '6543',
+        }
     }
-}
 
 
 # Password validation
